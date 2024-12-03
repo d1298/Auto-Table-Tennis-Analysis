@@ -4,11 +4,11 @@ import mediapipe as mp
 
 #This function goes through the created landmarks for each frame, prints out the x,y, and z coordinates for each landmark, and records all of them to csv_data
 def record_landmarks(landmarks, frame_number, csv_data):
-    print("Landmark coordinates for frame" + str(frame_number))
+    print("Landmark coordinates for frame " + str(frame_number))
     string = ""
-    for landmark in landmarks:
-        if landmarks.index(landmark) in specific_landmarks_indices:
-            print(mp_pose.PoseLandmark(landmarks.index(landmark)).name + ":, x:" + str(landmark.x) + ", y:" + str(landmark.y) + ", z:" + str(landmark.z))
+    for idx, landmark in enumerate(landmarks):
+        if idx in specific_landmarks_indices:
+            print(mp_pose.PoseLandmark(idx).name + ": x=" + str(landmark.x) + ", y=" + str(landmark.y) + ", z=" + str(landmark.z))
             string += (str(landmark.x) + "," + str(landmark.y) + "," + str(landmark.z) + ",")
 
     csv_data.append(str(frame_number) + "," + string + "\n")
