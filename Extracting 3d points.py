@@ -37,7 +37,7 @@ specific_landmarks_indices = [
 ]
 
 #Start capturing video at either a file address (for an mp4) or a webcam input
-cap = cv2.VideoCapture("video.mp4")
+cap = cv2.VideoCapture(0)
 
 #error message
 if not cap.isOpened():
@@ -76,7 +76,7 @@ while cap.isOpened():
     #Show each frame, with the overlay
     cv2.imshow("Pose Detection", frame)
 
-    #If q i pressed then exit the pgroam
+    #If q is pressed then exit the pgroam
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
     
