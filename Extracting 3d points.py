@@ -57,17 +57,14 @@ while cap.isOpened():
     if not read:
         print("Failed to grab a frame. Exiting...")
         break
-    
-    #Change the image format from BGR to RGB using cv2
-    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     #Use mediapipe to get the locations of each point in the frame
-    result = pose.process(frame_rgb)
+    result = pose.process(frame)
 
     #Draw circles on the image using cv2 to show the detected landmarks
     if result.pose_landmarks:
-        for idx in specific_landmarks_indices:
-            landmark = result.pose_landmarks.landmark[idx]
+        for index in specific_landmarks_indices:
+            landmark = result.pose_landmarks.landmark[index]
             height, width, _ = frame.shape
             cx, cy = int(landmark.x * width), int(landmark.y * height)
             cv2.circle(frame, (cx, cy), 5, (0, 255, 0), -1)
