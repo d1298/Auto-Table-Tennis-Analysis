@@ -23,23 +23,55 @@ while cap.isOpened():
     cv2.imshow("Video", frame)
     
     if keyboard.is_pressed("1"): 
+        if bp == False:
+            print("Backhand Push Started", frame_number)
+            bp = True
         if bp == True:
-            print("Backhand Push",frame_number)
+            print("Backhand Push Ended",frame_number)
+            bp = False
     
     if keyboard.is_pressed("2"): 
-        print("Backhand Block",frame_number)
-        
+        if bb == False:
+            print("Backhand Block Started", frame_number)
+            bb = True
+        if bb == True:
+            print("Backhand Block Ended",frame_number)
+            bb = False        
+            
     if keyboard.is_pressed("3"): 
-        print("Backhand Drive",frame_number)
+        if bd == False:
+            print("Backhand Drive Started", frame_number)
+            bd = True
+        if bd == True:
+            print("Backhand Drive Ended",frame_number)
+            bd = False
     
     if keyboard.is_pressed("4"): 
-        print("Forehand Push",frame_number)
-    
+        if fp == False:
+            print("Forehand Push Started", frame_number)
+            fp = True
+        if fp == True:
+            print("Forehand Push Ended",frame_number)
+            fp = False
+                
     if keyboard.is_pressed("5"): 
-        print("Forehand Block",frame_number)
-        
+        if fb == False:
+            print("Forehand Block Started", frame_number)
+            fb = True
+        if fb == True:
+            print("Forehand Block Ended",frame_number)
+            fb = False       
+                 
     if keyboard.is_pressed("6"): 
-        print("Forehand Drive",frame_number)
+        if fd == False:
+            print("Forehand Drive Started", frame_number)
+            fd = True
+        if fd == True:
+            print("Forehand Drive Ended",frame_number)
+            fd = False               
+            
+            
+            
         
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
