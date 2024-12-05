@@ -13,6 +13,15 @@ shots = ["BPush", "BBlock", "BDrive", "FPush", "FBlock", "FDrive"]
 frame_number = 0
 bp,bb,bd,fp,fb,fd = False, False, False, False, False, False
 
+#The idea to train a model with video data.
+#Calculate the angles between all of the joins that we want
+# Work out an equation for each of the angles throughout the process of the shot
+# This will be the training data
+
+def get_angles(ax,ay,az,bx,by,bz,cx,cy,cz):
+    pass
+
+
 while cap.isOpened():
     read, frame = cap.read()
     

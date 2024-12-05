@@ -37,7 +37,7 @@ specific_landmarks_indices = [
 ]
 
 #Start capturing video at either a file address (for an mp4) or a webcam input
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("video.mp4")
 
 #error message
 if not cap.isOpened():
@@ -45,7 +45,7 @@ if not cap.isOpened():
     exit()
 
 frame_number = 0
-#Array for the list to be saved, first line is the column headers
+#Array for the list to be saved, first line is the column headers   
 csv_data = ["frame number, LSx, LSy,LSz,RSx,RSy,RSz,LEx,LEy,LEz,REx,REy,REz,LWx,LWy,LWz,RWx,RWy,RWz,LHx,LHy,LHz,RHx,RHy,RHz,LKx,LKy,LKz,RKx,RKy,RKz,LAx,LAy,LAz,RAx,RAy,RAz \n"]
 
 #loop through the video
