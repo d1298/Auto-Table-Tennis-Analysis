@@ -37,7 +37,7 @@ specific_landmarks_indices = [
 ]
 
 #Start capturing video at either a file address (for an mp4) or a webcam input
-cap = cv2.VideoCapture("video.mp4")
+cap = cv2.VideoCapture(0)
 
 #error message
 if not cap.isOpened():

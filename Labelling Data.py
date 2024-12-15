@@ -3,6 +3,7 @@ import time
 import keyboard
 import math
 import numpy as np
+import random
 from sympy import *
 from sympy.abc import *
 
@@ -48,7 +49,7 @@ def lagrange_interpolation(y_values):
     n = len(y_values)
     x_values = list(range(n))
     
-    equation = 0
+    string = ""
     
     for yval in range(n):
         numerator = 1
@@ -59,15 +60,22 @@ def lagrange_interpolation(y_values):
                 numerator *= (x - x_values[xval])
                 denominator *= (x_values[yval] - x_values[xval])
             
-        equation += (numerator/denominator) * y_values[yval]
+        equation = str(expand((numerator/denominator) * y_values[yval]))
         
-    equation = expand(equation)
-    print(equation)
+        print(equation)
+        index = equation.index("x")
+        equation = equation[:index-1]
+        print(equation)
+            
+        string += (", " + equation)
         
-    return equation
+    print(string)
+        
+    
+    return string
 
 def frames_to_equations(shot,starting_frame, ending_frame):
-    
+
     shots = {
         0: "None",
         1: "Backhand Push",
@@ -80,6 +88,8 @@ def frames_to_equations(shot,starting_frame, ending_frame):
     
     print(shots[shot] + " ended")
     
+    #Need to remove a set amount of frames form it so there is always the same number of frames for each clip so that all the coefficients are the same so that it is easier to train the model
+    
     with open ("recorded_data/test1.csv", "r") as file:
         datatemp = file.read().splitlines()
         data = []
@@ -87,10 +97,28 @@ def frames_to_equations(shot,starting_frame, ending_frame):
             data.append(datatemp[i].split(","))
             
         angles = []
-            
-        for i in range(ending_frame - starting_frame):
+       
+        # shorterns number of frames so that if it is above 20 it will now be 20
+        frames = []
+        clip_length = ending_frame - starting_frame
+        
+        for i in range(clip_length):
+            frames.append(starting_frame + i)
+                    
+        while clip_length > 20:
+            if int(clip_length/20) <= 1:
+                del frames[random.randint(0,len(frames)-1)]
+            else:
+                del frames[(int(clip_length/20))-1::int(clip_length/20)]
+            clip_length = len(frames)
+
+        print(len(frames))
+    
+    
+    
+        for i in range(clip_length):
             angles.append([])
-            frame_index = starting_frame + i
+            frame_index = frames[i]
 
             opts = [[1,2,3],[4,5,6],[7,8,9],[10,11,12],[13,14,15],[16,17,18],[19,20,21],[22,23,24],[25,26,27],[28,29,30],[31,32,33],[34,35,36]]
             
@@ -100,18 +128,18 @@ def frames_to_equations(shot,starting_frame, ending_frame):
                         if a != b and b != c and a != c:
                             angles[i].append(get_angle(data[frame_index][(opts[a])[0]],data[frame_index][(opts[a])[1]],data[frame_index][(opts[a])[2]],data[frame_index][(opts[b])[0]],data[frame_index][(opts[b])[1]],data[frame_index][(opts[b])[2]],data[frame_index][(opts[c])[0]],data[frame_index][(opts[c])[1]],data[frame_index][(opts[c])[2]]))
             
-        equations = [shot,starting_frame, ending_frame]
+        equations = [shot]
                     
         for i in range(len(angles[0])):
             anglestoequation = []
             for b in range(len(angles)):
                 anglestoequation.append(angles[b][i])
             equations.append(lagrange_interpolation(anglestoequation))
-            
+        
+        #format list to remove info
+        
         write_data(equations)
         return
-
-#Probably use polynomial interpolation (newton) to approximate the equation, offset all frame numbers so the first one is zero to simplify the whole thing
 
 #0,1,2,3,4,5,6
 #BPush, BBlock, BDrive, FPush, FBlock, FDrive
